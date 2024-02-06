@@ -87,6 +87,10 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    
+  }, [page]);
+
   const startIndex = (page - 1) * 10;
   const endIndex = page * 10;
   const currentPageData = data.slice(startIndex, endIndex);
@@ -139,7 +143,6 @@ function App() {
                     marginRight: "16px",
                   }}
                   onClick={handleChangePrev}
-                  disabled={page === 1}
                 >
                   Previous
                 </button>
