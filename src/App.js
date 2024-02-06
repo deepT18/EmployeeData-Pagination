@@ -139,7 +139,6 @@ function App() {
                     marginRight: "16px",
                   }}
                   onClick={handleChangePrev}
-                  disabled={page === 1}
                 >
                   Previous
                 </button>
