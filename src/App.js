@@ -155,7 +155,6 @@ function App() {
                     marginLeft: "16px",
                   }}
                   onClick={handleChangeNext}
-                  disabled={page === Math.ceil(data.length / 10)}
                 >
                   Next
                 </button>
