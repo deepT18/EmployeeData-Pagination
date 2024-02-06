@@ -88,7 +88,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    
+    document.querySelector('.pagination-btn').disabled = page === 1;
   }, [page]);
 
   const startIndex = (page - 1) * 10;
