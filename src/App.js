@@ -129,7 +129,13 @@ function App() {
           <tr>
             <td colSpan="4" style={{ textAlign: "center" }}>
               <div>
-                <button
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div style={{textAlign:"center"}}>
+      <button
                   style={{
                     backgroundColor: "green",
                     color: "#fff",
@@ -158,11 +164,7 @@ function App() {
                 >
                   Next
                 </button>
-              </div>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+                </div>
     </div>
   );
 }
