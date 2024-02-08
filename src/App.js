@@ -6,21 +6,45 @@ import EmployeeTable from "./Components/EmployeeData/EmployeeData"
 import ChangeButton from "./Components/ChangeButtons/changeButton"
 
 function App() {
-  const [page,setPage]=useState(1)
   const[data,setData]=useState([])
+  const [page,setPage]=useState(1)
+  const [employeesPerPage] = useState(10);
 
   useEffect(()=>{
-    axios.get("https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json").then((res)=>{
-      setData(res.data)
-      console.log(res.data)
-    }).catch((err)=>{
-      alert("failed to fetch data",err)
-    })
+    const fetchEmployeeData = async () => {
+      try {
+        const res = await axios.get(
+          "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
+        );
+        setData(res.data);
+      } catch (error) {
+        alert("failed to fetch data");
+      }
+    };
+
+    fetchEmployeeData();
   },[])
 
-  const startIndex = (page - 1) * 10;
-  const endIndex = page * 10;
-  const currentPageData = data.slice(startIndex, endIndex);
+  const totalEmployees = data.length; //length of total employees data objects
+
+  //Logic to get current page employee data:-
+
+  //Math.min is used for last page purpose because when total employees = 46
+  //and currentPage*employeesPerPage = 50, we should extract till
+  //46 only in slice operation not 50 and there are only 46 employees.
+  const indexOfLastEmployee = Math.min(
+    page * employeesPerPage,
+    totalEmployees
+  );
+  const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
+  const currentPageEmployees = data.slice(
+    indexOfFirstEmployee,
+    indexOfLastEmployee
+  );
+
+  // const startIndex = (page - 1) * 10;
+  // const endIndex = page * 10;
+  // const currentPageData = data.slice(startIndex, endIndex);
 
 
   const handleChangePrev=()=>{
@@ -30,7 +54,7 @@ function App() {
   }
 
   const handleChangeNext=()=>{
-    if (page < Math.ceil(data.length / 10)) {
+    if (page < Math.ceil(data.length / employeesPerPage)) {
       setPage(page + 1);
     }
   }
@@ -39,7 +63,7 @@ function App() {
 
   return (
     <div>
-    <EmployeeTable employeeData={currentPageData}/>
+    <EmployeeTable employeeData={currentPageEmployees}/>
     <ChangeButton currentPage={page} nextFn={handleChangeNext} preFn={handleChangePrev}/>
     </div>
   );
